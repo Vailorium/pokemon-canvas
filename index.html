@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      font-family: Arial
+    }
+
+    table, tr, th, td {
+      border: 2px solid black;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 5px;
+      text-align: center;
+    }
+
+    canvas {
+      height: 1000px;
+      width: 1000px;
+      border: 1px solid black
+    }
+
+    .container {
+      display: flex;
+    }
+
+    div {
+      padding: 5px;
+    }
+  </style>
+</head>
+<body onload="preload()">
+  <div class="container">
+    <div>
+      <canvas id="pokemon-canvas" height="1000" width="1000"></canvas>
+    </div>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody id="table-type-count">
+    
+        </tbody>
+      </table>
+    </div>
+    <div style="border: 1px solid black">
+      <h2>Introduction</h2>
+      <p>This is a simulation done on a 250x250 board (each pixel is 4x4) based on Pokémon. Inspired by <a target="_blank" href="https://twitter.com/matthen2/status/1543226572592783362?s=20&t=yb1X9hh8ipBGjMO1srM0IQ">this tweet</a>. Ticks every 100ms.</p>
+      <h2>Rules:</h2>
+      <p>For each cell:</p>
+      <ol>
+        <li>Calculate if the cell is strong (super-effective) or weak (they are super effective) vs all neighbouring cells in the cardinal directions (NSEW)</li>
+        <li>If the cell is weak, then add the winning cell (the neighbour cell that is super effective) to the "results" list for this cell</li>
+        <li>After running through each cell, the most common result in the results list for each cell becomes the new value for this cell</li>
+        <li>Repeat</li>
+      </ol>
+      <button onclick="start()">Start</button>
+      <button onclick="stop()">Stop</button>
+      <hr />
+      <h2>Observations:</h2>
+      <ul>
+        <li>Lots of patterns emerge where one type beats another type beats another type ("type triangle")</li>
+        <ul>
+          <li>e.g. Fighting > Dark > Psychic > Fighting and Water > Ground > Electric > Water</li>
+        </ul>
+        <li>There are always large patches of ghost and fairy that seem to stick around</li>
+        <ul>
+          <li>In both cases, its likely due to a lack of weaknesses in the type, as ghost is only weak to dark (and itself), and fairy is only weak to poison and steel, both of which get eliminated very quickly</li>
+        </ul>
+        <li>After a while, Fighting Dark and Psychic tend to dominate the board</li>
+        <ul>
+          <li>This, again, is likely due to the massive strengths this trio have, and the lack of weaknesses (excluding to themselves) they have. The only external type really strong against these three is the bug type.</li>
+        </ul>
+        <li>Normal gets trashed on because it isn't strong against anything, sorry normal type :(</li>
+        <ul>
+          <li>Dragon also gets trashed on because it is only strong against itself</li>
+        </ul>
+      </ul>
+      <p>Overall, its safe to say that the simulation heavily favours offensive types (psychic, fighting, electric) over defensive types (steel, dragon). There are definitely biases but its cool to look at.</p>
+    </div>
+  </div>
+  <script src="scripts.js"></script>
+</body>
+</html>
